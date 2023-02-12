@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "start": "node index.js",
-  "build": "npm install express nedb" 
-}
+    "start": "node index.js",
+    "build": "npm install express nedb" 
+  },
   "author": "Pratyush",
   "license": "ISC",
   "dependencies": {
