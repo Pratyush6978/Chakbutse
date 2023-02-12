@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+</head>
+<body>
+<h4>Admin</h4>
+<form action="/sendHomework" method="POST">
+    <!--        <input type="text" name="message" placeholder="Assignment">-->
+    <label for="Homework">Add Homework: </label>
+    <select id="Homework" name="message">
+        <option value="Samyo Maam">English</option>
+        <option value="Youbraj Sir">Nepali</option>
+        <option value="Umesh Sir">Adv Coding</option>
+        <option value="Anuskha Maam">Basic Coding</option>
+        <option value="Basu Sir">Basu</option>
+        <option value="Rashmita Maam">Rashmita</option>
+        <option value="Madhu Sir">Madhu</option>
+        <option value="Laxman Sir">Laxman</option>
+        <option value="Sarak Sir">Sarak</option>
+        <option value="Saroj Sir">Saroj</option>
+        <option value="Sagina Maam">Sagina</option>
+        <option value="RDP Sir">RDP</option>
+        <option value="Dy Sir">DY</option>
+        <option value="Santosh Sir">Santosh</option>
+        <option value="Saugat Sir">Saugat</option>
+    </select>
+    <input type="date" name="date" placeholder="Deadline">
+    <button type="submit">Submit</button>
+</form>
+<br>
+<a href="/">home</a>
+<br> <br>
+<ul id="content"></ul>
+
+<script>
+    const contentList = document.querySelector("#content");
+    fetch("/getHomework")
+        .then((response) => response.json())
+        .then((data) => {
+            data.forEach((item) => {
+                const li = document.createElement("li");
+                li.textContent = item.message +". Deadline on "+ item.date + " " + item.day;
+                const deleteBtn = document.createElement("button");
+                deleteBtn.textContent = "Delete";
+                deleteBtn.addEventListener("click", () => {
+                    fetch(`/getHomework/${item._id}`, { method: "DELETE" }).then(() =>
+                        li.remove()
+                    );
+                });
+                li.appendChild(deleteBtn);
+                contentList.appendChild(li);
+            });
+        });
+</script>
+</body>
+</html>

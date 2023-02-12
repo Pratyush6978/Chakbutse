@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+
+<body>
+<div style="float: right; margin: 40px;">
+    <div class="today">
+        <div id="today_day"></div>
+        <div id="clock"></div>
+    </div>
+    <br>
+    <div id="routine_today"></div>
+    <br>
+    <div>
+        <div>
+            <button onclick="monday_show()" class="multi-button">Monday</button>
+            <button onclick="tuesday_show()" class="multi-button">Tuesday</button>
+            <button onclick="wednesday_show()" class="multi-button">Wednesday</button>
+            <button onclick="thursday_show()" class="multi-button">Thursday</button>
+            <button onclick="friday_show()" class="multi-button">Friday</button>
+        </div>
+        <p id="many_routine"></p>
+        <p id="2day"></p>
+    </div>
+</div>
+<br>
+<div style="float: left; margin: 40px;">
+    <h4>Homework:</h4>
+    <ul id="data"> </ul>
+</div>
+
+<script>
+    const dataList = document.querySelector("#data");
+    fetch("/getHomework")
+        .then((response) => response.json())
+        .then((data) => {
+            data.forEach((item) => {
+                const li = document.createElement("li");
+                li.textContent = item.message +" Deadline on "+ item.date + " " + item.day;
+                dataList.appendChild(li);
+            });
+        });
+
+    function Time() {
+
+        var date = new Date();
+
+        var hour = date.getHours();
+
+        var minute = date.getMinutes();
+
+        var second = date.getSeconds();
+
+        var period = "";
+
+        if (hour >= 12) {
+            period = "PM";
+        } else {
+            period = "AM";
+        }
+
+        if (hour == 0) {
+            hour = 12;
+        } else {
+            if (hour > 12) {
+                hour = hour - 12;
+            }
+        }
+
+        hour = update(hour);
+        minute = update(minute);
+
+        document.getElementById("clock").innerText = hour + " : " + minute +  " " + period;
+
+        setTimeout(Time, 1000);
+    }
+
+    function update(t) {
+        if (t < 10) {
+            return "0" + t;
+        }
+        else {
+            return t;
+        }
+
+    }
+
+    Time();
+
+
+    let tD = new Date().toString().slice(0, 3);
+    let todayDay;
+
+    if (tD === "Mon") {
+        todayDay = "Monday";
+    }
+    else if (tD === "Tue") {
+        todayDay = "Tuesday";
+    }
+    else if (tD === "Wed") {
+        todayDay = "Wednesday";
+    }
+    else if (tD === "Thu") {
+        todayDay = "Thursday";
+    }
+    else if (tD === "Fri") {
+        todayDay = "Friday";
+    }
+    else if (tD === "Sat") {
+        todayDay = "Saturday";
+    }
+    else if (tD === "Sun") {
+        todayDay = "Sunday";
+    }
+    document.getElementById("today_day").innerHTML = todayDay + new Date().toDateString().slice(3);
+
+    monday = {
+        1: "Maths Sr",
+        2: "Chemistry D",
+        3: "English",
+        4: "Nepali",
+        5: "Chemistry, S",
+        6: "English Reading",
+        7: "Maths, S",
+        8: "Nepali Reading"
+    }
+    tuesday = {
+        1: "Maths L",
+        2: "Chemistry RDP",
+        3: "Nepali",
+        4: "Chemistry Practical",
+        5: "Chemistry Practical",
+        6: "DSS Talk",
+        7: "Computer, Su",
+        8: "Physics, M"
+    }
+    wednesday = {
+        1: "Chemistry, RDP",
+        2: "Adv Programming",
+        3: "Adv Programming",
+        4: "Computer, Sa",
+        5: "English",
+        6: "Maths, L",
+        7: "Chemistry, D",
+        8: "Maths, S"
+    }
+    thursday = {
+        1: "Saroj Sr",
+        2: "Basic Coding",
+        3: "Basic Coding",
+        4: "Physics Practical",
+        5: "Physics Practical",
+        6: "Nepali",
+        7: "Computer, Su",
+        8: "Physics, B"
+    }
+    friday = {
+        1: "Physics, R",
+        2: "Physics, R",
+        3: "Maths, S",
+        4: "Computer, S",
+        5: "Nepali Reading",
+        6: "Physics, B",
+        7: "English Reading",
+        8: "English"
+    }
+    let classes = document.getElementById('routine_today');
+    let classes_list = document.getElementById('many_routine');
+
+    if (todayDay === "Monday") {
+        classes.innerHTML = `${monday["1"]} <br> ${monday["2"]} <br> ${monday["3"]} <br> ${monday["4"]} <br> ${monday["5"]} <br> ${monday["6"]} <br> ${monday["7"]} <br> ${monday["8"]}`;
+    }
+    else if (todayDay === "Tuesday") {
+        classes.innerHTML = `${tuesday["1"]} <br> ${tuesday["2"]} <br> ${tuesday["3"]} <br> ${tuesday["4"]} <br> ${tuesday["5"]} <br> ${tuesday["6"]} <br> ${tuesday["7"]} <br> ${tuesday["8"]}`;
+    }
+    else if (todayDay === "Wednesday") {
+        classes.innerHTML = `${wednesday["1"]} <br> ${wednesday["2"]} <br> ${wednesday["3"]} <br> ${wednesday["4"]} <br> ${wednesday["5"]} <br> ${wednesday["6"]} <br> ${wednesday["7"]} <br> ${wednesday["8"]}`;
+    }
+    else if (todayDay === "Thursday") {
+        classes.innerHTML = `${thursday["1"]} <br> ${thursday["2"]} <br> ${thursday["3"]} <br> ${thursday["4"]} <br> ${thursday["5"]} <br> ${thursday["6"]} <br> ${thursday["7"]} <br> ${thursday["8"]}`;
+    }
+    else if (todayDay === "Friday") {
+        classes.innerHTML = `${friday["1"]} <br> ${friday["2"]} <br> ${friday["3"]} <br> ${friday["4"]} <br> ${friday["5"]} <br> ${friday["6"]} <br> ${friday["7"]} <br> ${friday["8"]}`;
+    }
+    else if (todayDay === "Saturday") {
+        classes.innerHTML = "No Classes";
+    }
+    else if (todayDay === "Sunday") {
+        classes.innerHTML = "No Classes";
+    }
+
+    function monday_show() {
+        classes_list.innerHTML = `${monday["1"]} <br> ${monday["2"]} <br> ${monday["3"]} <br> ${monday["4"]} <br> ${monday["5"]} <br> ${monday["6"]} <br> ${monday["7"]} <br> ${monday["8"]}`;
+        document.getElementById('2day').innerHTML = "<button onclick=\"hide()\" class='hide'>Hide</button>";
+    }
+
+    function tuesday_show() {
+        classes_list.innerHTML = `${tuesday["1"]} <br> ${tuesday["2"]} <br> ${tuesday["3"]} <br> ${tuesday["4"]} <br> ${tuesday["5"]} <br> ${tuesday["6"]} <br> ${tuesday["7"]} <br> ${tuesday["8"]}`;
+        document.getElementById('2day').innerHTML = "<button onclick=\"hide()\" class='hide'>Hide</button>";
+    }
+
+    function wednesday_show() {
+        classes_list.innerHTML = `${wednesday["1"]} <br> ${wednesday["2"]} <br> ${wednesday["3"]} <br> ${wednesday["4"]} <br> ${wednesday["5"]} <br> ${wednesday["6"]} <br> ${wednesday["7"]} <br> ${wednesday["8"]}`;
+        document.getElementById('2day').innerHTML = "<button onclick=\"hide()\" class='hide'>Hide</button>";
+    }
+
+    function thursday_show() {
+        classes_list.innerHTML = `${thursday["1"]} <br> ${thursday["2"]} <br> ${thursday["3"]} <br> ${thursday["4"]} <br> ${thursday["5"]} <br> ${thursday["6"]} <br> ${thursday["7"]} <br> ${thursday["8"]}`;
+        document.getElementById('2day').innerHTML = "<button onclick=\"hide()\" class='hide'>Hide</button>";
+    }
+
+    function friday_show() {
+        classes_list.innerHTML = `${friday["1"]} <br> ${friday["2"]} <br> ${friday["3"]} <br> ${friday["4"]} <br> ${friday["5"]} <br> ${friday["6"]} <br> ${friday["7"]} <br> ${friday["8"]}`;
+        document.getElementById('2day').innerHTML = "<button onclick=\"hide()\" class='hide's>Hide</button>";
+    }
+
+    function hide(){
+        classes_list.innerHTML = "";
+        document.getElementById('2day').innerHTML = " ";
+    }
+</script>
+
+
+</body>
+
+</html>
